@@ -7,6 +7,7 @@ const Avatar = (props) => (
   <Image
     style={styles.avatar}
     source={{ uri: props.url }}
+    onError={(error) => console.log('Image failed to load:', error.nativeEvent.error)}
   />
 );
 
@@ -23,8 +24,18 @@ const Title = (props) => (
 );
 
 const styles = StyleSheet.create({
-  avatar: {},
-  heading: {},
+  // circular avatar image with border radius
+  avatar: {
+    width: 100, 
+    height: 100, 
+    borderRadius: 50, 
+    overflow: "hidden",
+  },
+  heading: {
+    fontSize: 24, 
+    fontWeight: "bold",
+    fontFamily: "System", 
+  },
   title: {},
 });
 
@@ -32,7 +43,7 @@ const styles = StyleSheet.create({
 
 const WoofCard = (props) => (
   <View>
-    <Avatar />
+    <Avatar url="https://picsum.photos/64/64" />
     <Title>Todo</Title>
   </View>
 );
