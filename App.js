@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, StyleSheet, Text, View, FlatList } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 // Basic reusable components
@@ -19,7 +19,7 @@ const Heading = (props) => (
 );
 
 const Title = (props) => (
-  <Text style={styles.title}>
+  <Text style={[styles.title, props.style]}>
     {props.children}
   </Text>
 );
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
     fontFamily: "System",
+    textAlign: "center",
   },
 });
 
@@ -56,12 +57,14 @@ const WoofCard = (props) => (
 const woofCardStyles = StyleSheet.create({
   card: {
     backgroundColor: "#FFFFFF",
-    borderWidth: 1, 
-    bordercolor: "#000000",
-    borderStyle: "solid",
     borderRadius: 8,
-    margin: 10, 
+    margin: 10,
     padding: 10,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.8,
+    shadowRadius: 2,
+    elevation: 5,
   },
   title: {
     textAlign: "center",
@@ -70,10 +73,10 @@ const woofCardStyles = StyleSheet.create({
 
 const WoofPost = (props) => (
   <View style={woofPostStyles.layout}>
-    <Image source={{ uri: props.image }} />
+    <Image source={{ uri: props.image }} style={woofPostStyles.image} />
     <View style={woofPostStyles.content}>
       <Text style={woofPostStyles.title}>{props.title}</Text>
-      <Text style={woofPostStyles.description}>{props.description}</Text>
+      <Text style={woofPostStyles.description} numberOfLines={2}>{props.description}</Text>
     </View>
   </View>
 );
@@ -81,25 +84,21 @@ const WoofPost = (props) => (
 const woofPostStyles = StyleSheet.create({
   layout: {
     backgroundColor: "#FFFFFF",
-    borderWidth: 1, 
-    borderColor: "#000000",
-    borderStyle: "solid",
     borderRadius: 8,
     margin: 10, 
     padding: 10,
     flexDirection: "row",
   },
   image: {
-    width: 80,
-    height: 200,
+    flex: 1,
+    width: 120,
+    height: 80,
     borderRadius: 8,
-    marginBottom: 10,
   },
   content: {
     flex: 2, 
     padding: 10,
-    justifyContent: "space-between",
-    alignItems: "flex-end",
+    justifyContent: "center", // vertical alignment
     flexDirection: "column",
   },
   title: {
@@ -107,6 +106,7 @@ const woofPostStyles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "System",
     color: "#000000",
+    textAlign: "left",
   },
   description: {
     fontSize: 14,
@@ -117,31 +117,27 @@ const woofPostStyles = StyleSheet.create({
 
 // The screen rendering everything
 const HomeScreen = () => (
-  <ScrollView>
+  <View style={{ flex: 1 }}>
     <Heading>Trending Woofs</Heading>
-    <ScrollView horizontal={true}>
-    <WoofCard 
-      name="Rex" 
-      avatar="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=648&q=80"
-      />
-    <WoofCard 
-      name="Ball" 
-      avatar="https://images.unsplash.com/photo-1585584114963-503344a119b0?auto=format&fit=crop&w=648&q=80"
-      />
-      <WoofCard 
-      name="Happy" 
-      avatar="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=648&q=80"
-      />
-      <WoofCard 
-      name="Fluffy" 
-      avatar="https://images.unsplash.com/photo-1554956615-1ba6dc39921b?auto=format&fit=crop&w=648&q=80"
-      />
-      <WoofCard 
-      name="Spirit" 
-      avatar="https://images.unsplash.com/photo-1514984879728-be0aff75a6e8?auto=format&fit=crop&w=648&q=80"
-      />
-    </ScrollView>
-  </ScrollView>
+    {/* Change from ScrollView to FlatList for better performance on large lists */}
+    <FlatList
+      data={data.woofs}
+      renderItem={({ item }) => <WoofCard name={item.name} avatar={item.avatar} />}
+      keyExtractor={(item) => item.id}
+      horizontal
+      style={{ flexGrow: 0 }}
+    />
+    <Heading>New Woof Posts</Heading>
+    {/* FlatList used instead of ScrollView for better performance on large lists */}
+    <FlatList
+      data={data.posts}
+      renderItem={({ item }) => (
+        <WoofPost title={item.title} description={item.description} image={item.image} />
+      )}
+      keyExtractor={(item) => item.id}
+      style={{ flex: 1 }}
+    />
+  </View>
 );
 
 const App = () => (
