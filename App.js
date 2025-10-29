@@ -56,7 +56,9 @@ const WoofCard = (props) => (
 const woofCardStyles = StyleSheet.create({
   card: {
     backgroundColor: "#FFFFFF",
-    border: "1px solid #000000ff",
+    borderWidth: 1, 
+    bordercolor: "#000000",
+    borderStyle: "solid",
     borderRadius: 8,
     margin: 10, 
     padding: 10,
@@ -67,33 +69,78 @@ const woofCardStyles = StyleSheet.create({
 });
 
 const WoofPost = (props) => (
-  <View>
-    <Image source={{ uri: 'todo' }} />
-    <View>
-      <Text>todo</Text>
-      <Text>todo</Text>
+  <View style={woofPostStyles.layout}>
+    <Image source={{ uri: props.image }} />
+    <View style={woofPostStyles.content}>
+      <Text style={woofPostStyles.title}>{props.title}</Text>
+      <Text style={woofPostStyles.description}>{props.description}</Text>
     </View>
   </View>
 );
 
 const woofPostStyles = StyleSheet.create({
-  layout: {},
-  image: {},
-  content: {},
-  title: {},
-  description: {},
+  layout: {
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1, 
+    borderColor: "#000000",
+    borderStyle: "solid",
+    borderRadius: 8,
+    margin: 10, 
+    padding: 10,
+    flexDirection: "row",
+  },
+  image: {
+    width: 80,
+    height: 200,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  content: {
+    flex: 2, 
+    padding: 10,
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    flexDirection: "column",
+  },
+  title: {
+    fontSize: 16,
+    fontWeight: "bold",
+    fontFamily: "System",
+    color: "#000000",
+  },
+  description: {
+    fontSize: 14,
+    fontFamily: "System",
+    color: "#000000",
+  },
 });
 
 // The screen rendering everything
 const HomeScreen = () => (
   <ScrollView>
     <Heading>Trending Woofs</Heading>
+    <ScrollView horizontal={true}>
     <WoofCard 
       name="Rex" 
-      avatar="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=648&q=80"></WoofCard>
+      avatar="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=648&q=80"
+      />
     <WoofCard 
       name="Ball" 
-      avatar="https://images.unsplash.com/photo-1585584114963-503344a119b0?auto=format&fit=crop&w=648&q=80"></WoofCard>
+      avatar="https://images.unsplash.com/photo-1585584114963-503344a119b0?auto=format&fit=crop&w=648&q=80"
+      />
+      <WoofCard 
+      name="Happy" 
+      avatar="https://images.unsplash.com/photo-1543466835-00a7907e9de1?auto=format&fit=crop&w=648&q=80"
+      />
+      <WoofCard 
+      name="Fluffy" 
+      avatar="https://images.unsplash.com/photo-1554956615-1ba6dc39921b?auto=format&fit=crop&w=648&q=80"
+      />
+      <WoofCard 
+      name="Spirit" 
+      avatar="https://images.unsplash.com/photo-1514984879728-be0aff75a6e8?auto=format&fit=crop&w=648&q=80"
+      />
+    </ScrollView>
   </ScrollView>
 );
 
