@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 // Basic reusable components
 
@@ -36,21 +37,33 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     fontFamily: "System", 
   },
-  title: {},
+  title: {
+    fontSize: 18,
+    fontWeight: "bold",
+    fontFamily: "System",
+  },
 });
 
 // App-specific components
 
 const WoofCard = (props) => (
-  <View>
-    <Avatar url="https://picsum.photos/64/64" />
-    <Title>Todo</Title>
+  <View style={woofCardStyles.card}>
+    <Avatar url={props.avatar} />
+    <Title style={woofCardStyles.title}>{props.name}</Title>
   </View>
 );
 
 const woofCardStyles = StyleSheet.create({
-  card: {},
-  title: {},
+  card: {
+    backgroundColor: "#FFFFFF",
+    border: "1px solid #000000ff",
+    borderRadius: 8,
+    margin: 10, 
+    padding: 10,
+  },
+  title: {
+    textAlign: "center",
+  },
 });
 
 const WoofPost = (props) => (
@@ -74,16 +87,22 @@ const woofPostStyles = StyleSheet.create({
 // The screen rendering everything
 const HomeScreen = () => (
   <ScrollView>
-    <Heading>Generic heading</Heading>
-    <Avatar url="https://picsum.photos/64/64" />
-    <Title>Generic title</Title>
+    <Heading>Trending Woofs</Heading>
+    <WoofCard 
+      name="Rex" 
+      avatar="https://images.unsplash.com/photo-1558788353-f76d92427f16?auto=format&fit=crop&w=648&q=80"></WoofCard>
+    <WoofCard 
+      name="Ball" 
+      avatar="https://images.unsplash.com/photo-1585584114963-503344a119b0?auto=format&fit=crop&w=648&q=80"></WoofCard>
   </ScrollView>
 );
 
 const App = () => (
-  <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF9FA' }}>
-    <HomeScreen />
-  </SafeAreaView>
+  <SafeAreaProvider>
+    <SafeAreaView style={{ flex: 1, backgroundColor: '#FAF9FA' }}>
+      <HomeScreen />
+    </SafeAreaView>
+  </SafeAreaProvider>
 );
 
 export default App;
