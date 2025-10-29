@@ -1,4 +1,5 @@
 # Make an Instagram App (Part Two)
+Project from Codecadmy to help practice React Native skills.
 Without a good UI, even an up-and-coming app like Woofstagram won't attract any users!
 
 This project continues on our previous Woofstagram Sign-up Form, the Instagram for your dogs. We're building the home screen for Woofstagram, with both visual and structural components.
